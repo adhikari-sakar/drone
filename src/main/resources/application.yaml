@@ -1,0 +1,13 @@
+drones:
+  droneList:
+    - serialNumber: TEST_123
+      model: LIGHT_WEIGHT
+      weightLimit: 500
+      batteryCapacity: 100
+      state: IDLE
+
+    - serialNumber: TEST_124
+      model: HEAVY_WEIGHT
+      weightLimit: 500
+      batteryCapacity: 100
+      state: IDLE

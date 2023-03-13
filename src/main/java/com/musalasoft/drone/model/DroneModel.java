@@ -3,7 +3,7 @@ package com.musalasoft.drone.model;
 import lombok.Getter;
 
 public enum DroneModel {
-    LIGHT_WIGHT("Lightweight"),
+    LIGHT_WEIGHT("Lightweight"),
     MIDDLE_WEIGHT("MiddleWeight"),
     CRUISER_WEIGHT("Cruiserweight,"),
     HEAVY_WEIGHT("Heavyweight");

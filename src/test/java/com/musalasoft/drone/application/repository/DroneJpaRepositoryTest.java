@@ -40,7 +40,7 @@ class DroneJpaRepositoryTest {
     private DroneEntity drone() {
         var drone = new DroneEntity();
         drone.setSerialNumber(UUID.randomUUID().toString());
-        drone.setModel(DroneModel.LIGHT_WIGHT);
+        drone.setModel(DroneModel.LIGHT_WEIGHT);
         drone.setWeightLimit(100.00);
         drone.setBatteryCapacity(100.00);
         drone.setState(DroneState.IDLE);
