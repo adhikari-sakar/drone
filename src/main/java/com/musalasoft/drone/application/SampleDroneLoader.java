@@ -4,6 +4,7 @@ import com.musalasoft.drone.application.dto.NewDroneRequest;
 import com.musalasoft.drone.application.mapper.DroneMapper;
 import com.musalasoft.drone.application.repository.DroneJpaRepository;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 
 public class SampleDroneLoader {
@@ -17,7 +18,8 @@ public class SampleDroneLoader {
         this.mapper = mapper;
     }
 
-    public void load() {
-        drones.forEach(d -> repository.save(mapper.toEntity(d)));
+    @PostConstruct
+    void loadDrones() {
+        drones.forEach(request -> repository.save(mapper.toEntity(request)));
     }
 }
