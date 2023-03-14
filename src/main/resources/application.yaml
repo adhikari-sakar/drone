@@ -2,6 +2,6 @@ drones:
   droneRequests:
     - serialNumber: TEST_123
       model: LIGHT_WEIGHT
-
-    - serialNumber: TEST_124
-      model: HEAVY_WEIGHT
+#
+#    - serialNumber: TEST_124
+#      model: HEAVY_WEIGHT

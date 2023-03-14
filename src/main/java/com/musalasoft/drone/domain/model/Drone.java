@@ -10,6 +10,7 @@ import static com.musalasoft.drone.domain.model.DroneState.*;
 import static java.util.Optional.ofNullable;
 
 public class Drone extends BaseModel<Long> {
+
     public Drone(SerialNumber serialNumber, DroneModel model, Weight weight, Battery battery, DroneState state, List<Medication> medications) {
         this.serialNumber = serialNumber;
         this.model = model;
@@ -19,12 +20,12 @@ public class Drone extends BaseModel<Long> {
         this.medications = ofNullable(medications).orElseGet(ArrayList::new);
     }
 
-    private SerialNumber serialNumber;
-    private DroneModel model;
-    private Weight weight;
+    private final SerialNumber serialNumber;
+    private final DroneModel model;
+    private final Weight weight;
     private Battery battery;
     private DroneState state;
-    private List<Medication> medications;
+    private final List<Medication> medications;
 
     public SerialNumber getSerialNumber() {
         return ofNullable(this.serialNumber)
@@ -98,48 +99,47 @@ public class Drone extends BaseModel<Long> {
         return this;
     }
 
-    private void dropBattery() {
-        this.battery = battery.drop();
+    private void drainBattery() {
+        this.battery = battery.drain();
     }
 
-    public Drone delivering() {
+    public Drone deliver() {
         this.state = DELIVERING;
-        dropBattery();
+        drainBattery();
         return this;
     }
 
     public Drone delivered() {
         this.state = DELIVERED;
         unload();
-        dropBattery();
+        drainBattery();
         return this;
     }
 
     private void unload() {
-        getMedications().clear();
+//        getMedications().clear();
     }
 
     public Drone returnDrone() {
         this.state = RETURNING;
-        dropBattery();
+        drainBattery();
         return this;
     }
 
     public Drone land() {
         this.state = IDLE;
-        dropBattery();
+        drainBattery();
         return this;
     }
 
     @Override
     public String toString() {
         return "Drone{" +
-                "serialNumber=" + serialNumber.getId() +
-                ", model=" + model.name() +
-                ", weight=" + weight.getUnit() +
+                "  weight=" + weight.getUnit() +
                 ", battery=" + battery.getCapacity() +
                 ", state=" + state.name() +
-                ", medications=" + medications +
+                ", medications_size=" + medications.size() +
+                ", medications_weight=" + payloadWeight(getMedications()) +
                 '}';
     }
 }

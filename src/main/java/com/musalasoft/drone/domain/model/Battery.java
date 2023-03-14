@@ -8,7 +8,6 @@ import javax.validation.constraints.Max;
 @Value
 @Builder
 public class Battery {
-
     @Max(100)
     Double capacity;
 
@@ -32,7 +31,7 @@ public class Battery {
         return Battery.builder().capacity(capacity).build();
     }
 
-    public Battery drop() {
+    public Battery drain() {
         return Battery.builder().capacity(this.capacity - 25.00).build();
     }
 

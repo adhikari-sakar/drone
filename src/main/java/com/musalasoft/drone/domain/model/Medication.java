@@ -16,9 +16,9 @@ public class Medication extends BaseModel<Long> {
         this.image = image;
     }
 
-    private MedicationName name;
-    private Weight weight;
-    private MedicationCode code;
-    private Image image;
+    private final MedicationName name;
+    private final Weight weight;
+    private final MedicationCode code;
+    private final Image image;
 
 }

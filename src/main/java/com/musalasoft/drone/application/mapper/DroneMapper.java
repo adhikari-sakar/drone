@@ -34,5 +34,7 @@ public interface DroneMapper {
     @Mapping(source = "battery.capacity", target = "battery")
     DroneDto toDto(Drone model);
 
-    List<Drone> toDroneList(List<DroneEntity> entities);
+    List<Drone> toDroneModels(List<DroneEntity> entities);
+
+    List<DroneEntity> toDroneEntities(List<Drone> drones);
 }
