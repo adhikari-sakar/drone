@@ -60,18 +60,14 @@ public class Drone extends BaseModel<Long> {
     }
 
     public Drone loadItems(List<Medication> newMedications) {
+        this.state = LOADING;
         if (isLowBattery())
             throw new BatteryLowException("Drone battery is low.");
-        this.state = LOADING;
         if (isOverloaded(newMedications))
             throw new DroneLoadExceedException("Weight limit exceeded.");
         newMedications.forEach(medication -> getMedications().add(medication));
         this.state = LOADED;
         return this;
-    }
-
-    private void dropBattery() {
-        this.battery = battery.drop();
     }
 
     private boolean isOverloaded(List<Medication> newLoads) {
@@ -102,6 +98,10 @@ public class Drone extends BaseModel<Long> {
         return this;
     }
 
+    private void dropBattery() {
+        this.battery = battery.drop();
+    }
+
     public Drone delivering() {
         this.state = DELIVERING;
         dropBattery();
@@ -110,12 +110,36 @@ public class Drone extends BaseModel<Long> {
 
     public Drone delivered() {
         this.state = DELIVERED;
+        unload();
+        dropBattery();
         return this;
+    }
+
+    private void unload() {
+        getMedications().clear();
     }
 
     public Drone returnDrone() {
         this.state = RETURNING;
         dropBattery();
         return this;
+    }
+
+    public Drone land() {
+        this.state = IDLE;
+        dropBattery();
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "Drone{" +
+                "serialNumber=" + serialNumber.getId() +
+                ", model=" + model.name() +
+                ", weight=" + weight.getUnit() +
+                ", battery=" + battery.getCapacity() +
+                ", state=" + state.name() +
+                ", medications=" + medications +
+                '}';
     }
 }

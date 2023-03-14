@@ -4,12 +4,14 @@ import com.musalasoft.drone.application.mapper.DroneMapper;
 import com.musalasoft.drone.domain.contracts.BaseRepository;
 import com.musalasoft.drone.domain.model.Drone;
 import com.musalasoft.drone.domain.model.DroneState;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Component
+@Repository
+@Transactional
 public class DroneRepository implements BaseRepository<Drone> {
 
     private final DroneMapper mapper;
