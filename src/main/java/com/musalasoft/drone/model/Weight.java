@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.Length;
 @Builder
 public class Weight {
 
-    @Length(max = 500, message = "Weight limit  exceeded.")
+    @Length(min = 1, max = 500, message = "Weight limit  exceeded.")
     Double unit;
 
     public boolean isEmptyLimit() {
@@ -17,5 +17,9 @@ public class Weight {
 
     public Weight maxLimit() {
         return Weight.builder().unit(500.00).build();
+    }
+
+    public static Double maxLoad() {
+        return 500.00;
     }
 }

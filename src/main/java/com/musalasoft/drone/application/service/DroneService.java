@@ -36,7 +36,14 @@ public class DroneService {
                 .map(drone -> drone.loadItems(medicationService.medicationsModel(medicationRequests)))
                 .map(repository::save)
                 .map(mapper::toDto)
-                .orElseThrow(() -> new DroneNotFoundException("Drone not found with serial " + serialNumber));
+                .orElseThrow(() -> droneNotFound(serialNumber));
+    }
+
+    public List<MedicationDto> findMedications(String serialNumber) {
+        return repository.findBySerialNumber(serialNumber)
+                .map(Drone::getMedications)
+                .map(medicationService::medicationsDto)
+                .orElseThrow(() -> droneNotFound(serialNumber));
     }
 
     public List<DroneDto> availableDrones() {
@@ -46,17 +53,14 @@ public class DroneService {
                 .collect(toList());
     }
 
-    public List<MedicationDto> findMedications(String serialNumber) {
-        return repository.findBySerialNumber(serialNumber)
-                .map(Drone::getMedications)
-                .map(medicationService::medicationsDto)
-                .orElseThrow(() -> new DroneNotFoundException("Drone not found with serial " + serialNumber));
-    }
-
     public Double batteryLevel(String serialNumber) {
         return repository.findBySerialNumber(serialNumber)
                 .map(Drone::getBattery)
                 .map(Battery::getCapacity)
-                .orElseThrow(() -> new DroneNotFoundException("Drone not found with serial " + serialNumber));
+                .orElseThrow(() -> droneNotFound(serialNumber));
+    }
+
+    private static DroneNotFoundException droneNotFound(String serialNumber) {
+        return new DroneNotFoundException("Drone not found with serial " + serialNumber);
     }
 }

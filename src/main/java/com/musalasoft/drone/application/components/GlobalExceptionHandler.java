@@ -1,6 +1,7 @@
 package com.musalasoft.drone.application.components;
 
 import com.musalasoft.drone.application.dto.ErrorResponse;
+import com.musalasoft.drone.exception.DroneException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -13,6 +14,11 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handle(DroneException e) {
+        e.printStackTrace();
+        return ResponseEntity.badRequest().body(new ErrorResponse(BAD_REQUEST, e.getMessage()));
+    }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handle(HttpMessageNotReadableException e) {

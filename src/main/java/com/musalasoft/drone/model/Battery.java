@@ -19,4 +19,8 @@ public class Battery {
     public Battery maxCapacity() {
         return Battery.builder().capacity(100.00).build();
     }
+
+    public boolean isLow() {
+        return capacity < 25.00;
+    }
 }

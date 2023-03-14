@@ -1,12 +1,14 @@
 package com.musalasoft.drone.model;
 
+import com.musalasoft.drone.exception.BatteryLowException;
+import com.musalasoft.drone.exception.DroneLoadExceedException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.util.Optional.ofNullable;
 
 public class Drone extends BaseModel<Long> {
-
     public Drone(SerialNumber serialNumber, DroneModel model, Weight weight, Battery battery, DroneState state, List<Medication> medications) {
         this.serialNumber = serialNumber;
         this.model = model;
@@ -16,12 +18,12 @@ public class Drone extends BaseModel<Long> {
         this.medications = medications;
     }
 
-    private SerialNumber serialNumber;
-    private DroneModel model;
-    private Weight weight;
-    private Battery battery;
-    private DroneState state;
-    private List<Medication> medications;
+    private final SerialNumber serialNumber;
+    private final DroneModel model;
+    private final Weight weight;
+    private final Battery battery;
+    private final DroneState state;
+    private final List<Medication> medications;
 
     public SerialNumber getSerialNumber() {
         return ofNullable(serialNumber)
@@ -56,8 +58,31 @@ public class Drone extends BaseModel<Long> {
         return ofNullable(medications).orElseGet(ArrayList::new);
     }
 
-    public Drone loadItems(List<Medication> medications) {
-        medications.forEach(medication -> getMedications().add(medication));
+    public Drone loadItems(List<Medication> newMedications) {
+        if (isOverloaded(newMedications))
+            throw new DroneLoadExceedException("Weight limit exceeded.");
+        if (isLowBattery())
+            throw new BatteryLowException("Drone battery is low.");
+        newMedications.forEach(load -> getMedications().add(load));
         return this;
+    }
+
+    private boolean isOverloaded(List<Medication> newLoads) {
+        return currentLoad() + payloadWeight(newLoads) > Weight.maxLoad();
+    }
+
+    private Double currentLoad() {
+        return payloadWeight(getMedications());
+    }
+
+    private Double payloadWeight(List<Medication> medications) {
+        return medications
+                .stream()
+                .mapToDouble(medication -> medication.getWeight().getUnit())
+                .sum();
+    }
+
+    private boolean isLowBattery() {
+        return getBattery().isLow();
     }
 }

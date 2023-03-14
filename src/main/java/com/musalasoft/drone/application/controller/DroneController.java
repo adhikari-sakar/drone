@@ -18,7 +18,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping("api/drones/")
 public class DroneController {
-
     private final DroneService droneService;
     private final DroneMapper mapper;
 
