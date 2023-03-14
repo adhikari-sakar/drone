@@ -12,7 +12,9 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static javax.persistence.EnumType.STRING;
 
@@ -42,4 +44,9 @@ public class DroneEntity extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "drone", orphanRemoval = true)
     private List<MedicationEntity> medications;
+
+    public void setMedications(List<MedicationEntity> medications) {
+        this.medications = Objects.requireNonNullElseGet(medications, ArrayList::new);
+        this.medications.forEach(medication -> medication.setDrone(this));
+    }
 }

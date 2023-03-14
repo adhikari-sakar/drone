@@ -7,8 +7,5 @@ public class NewDroneRequest {
 
     private String serialNumber;
     private String model;
-    private Double weightLimit;
-    private Double batteryCapacity;
-    private String state;
 
 }

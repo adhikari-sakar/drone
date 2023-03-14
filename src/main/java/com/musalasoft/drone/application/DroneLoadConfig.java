@@ -2,7 +2,7 @@ package com.musalasoft.drone.application;
 
 import com.musalasoft.drone.application.dto.NewDroneRequest;
 import com.musalasoft.drone.application.mapper.DroneMapper;
-import com.musalasoft.drone.application.repository.DroneJpaRepository;
+import com.musalasoft.drone.application.repository.DroneRepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -17,10 +17,10 @@ import java.util.List;
 public class DroneLoadConfig {
     @Getter
     @Setter
-    private List<NewDroneRequest> droneList = new ArrayList<>();
+    private List<NewDroneRequest> droneRequests = new ArrayList<>();
 
     @Bean
-    public SampleDroneLoader droneLoader(DroneJpaRepository jpaRepository, DroneMapper mapper) {
-        return new SampleDroneLoader(jpaRepository, droneList, mapper);
+    public SampleDroneLoader droneLoader(DroneRepository repository, DroneMapper mapper) {
+        return new SampleDroneLoader(repository, droneRequests, mapper);
     }
 }
