@@ -1,7 +1,7 @@
 package com.musalasoft.drone.application.dto;
 
-import com.musalasoft.drone.model.DroneModel;
-import com.musalasoft.drone.model.DroneState;
+import com.musalasoft.drone.domain.model.DroneModel;
+import com.musalasoft.drone.domain.model.DroneState;
 import lombok.Data;
 
 import java.util.List;
@@ -10,8 +10,8 @@ import java.util.List;
 public class DroneDto {
     private String serialNumber;
     private DroneModel model;
-    private Double weightLimit;
-    private Double batteryCapacity;
+    private Double weight;
+    private Double battery;
     private DroneState state;
     private List<MedicationDto> medications;
 }

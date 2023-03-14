@@ -1,7 +1,7 @@
 package com.musalasoft.drone.application.repository;
 
-import com.musalasoft.drone.model.DroneModel;
-import com.musalasoft.drone.model.DroneState;
+import com.musalasoft.drone.domain.model.DroneModel;
+import com.musalasoft.drone.domain.model.DroneState;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +41,8 @@ class DroneJpaRepositoryTest {
         var drone = new DroneEntity();
         drone.setSerialNumber(UUID.randomUUID().toString());
         drone.setModel(DroneModel.LIGHT_WEIGHT);
-        drone.setWeightLimit(100.00);
-        drone.setBatteryCapacity(100.00);
+        drone.setWeight(100.00);
+        drone.setBattery(100.00);
         drone.setState(DroneState.IDLE);
         drone.setMedications(List.of(medication()));
         return drone;

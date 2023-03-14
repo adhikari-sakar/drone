@@ -2,7 +2,7 @@ package com.musalasoft.drone.application.mapper;
 
 import com.musalasoft.drone.application.dto.MedicationDto;
 import com.musalasoft.drone.application.repository.MedicationEntity;
-import com.musalasoft.drone.model.Medication;
+import com.musalasoft.drone.domain.model.Medication;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

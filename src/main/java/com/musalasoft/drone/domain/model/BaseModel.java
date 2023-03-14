@@ -1,4 +1,4 @@
-package com.musalasoft.drone.model;
+package com.musalasoft.drone.domain.model;
 
 import java.util.Objects;
 

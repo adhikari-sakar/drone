@@ -1,4 +1,4 @@
-package com.musalasoft.drone.model;
+package com.musalasoft.drone.domain.model;
 
 public enum DroneState {
 

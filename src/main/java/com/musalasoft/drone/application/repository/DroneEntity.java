@@ -1,7 +1,7 @@
 package com.musalasoft.drone.application.repository;
 
-import com.musalasoft.drone.model.DroneModel;
-import com.musalasoft.drone.model.DroneState;
+import com.musalasoft.drone.domain.model.DroneModel;
+import com.musalasoft.drone.domain.model.DroneState;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,12 +33,12 @@ public class DroneEntity extends BaseEntity {
     @NotNull
     @Max(500)
     @Min(1)
-    private Double weightLimit;
+    private Double weight;
 
     @NotNull
     @Max(100)
     @Min(0)
-    private Double batteryCapacity;
+    private Double battery;
     @Enumerated(STRING)
     private DroneState state;
 

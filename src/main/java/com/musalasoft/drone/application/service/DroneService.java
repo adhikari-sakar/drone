@@ -5,9 +5,9 @@ import com.musalasoft.drone.application.dto.MedicationDto;
 import com.musalasoft.drone.application.mapper.DroneMapper;
 import com.musalasoft.drone.application.repository.DroneRepository;
 import com.musalasoft.drone.exception.DroneNotFoundException;
-import com.musalasoft.drone.model.Battery;
-import com.musalasoft.drone.model.Drone;
-import com.musalasoft.drone.model.DroneState;
+import com.musalasoft.drone.domain.model.Battery;
+import com.musalasoft.drone.domain.model.Drone;
+import com.musalasoft.drone.domain.model.DroneState;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

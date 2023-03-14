@@ -2,8 +2,8 @@ package com.musalasoft.drone.application.repository;
 
 import com.musalasoft.drone.application.mapper.DroneMapper;
 import com.musalasoft.drone.domain.contracts.BaseRepository;
-import com.musalasoft.drone.model.Drone;
-import com.musalasoft.drone.model.DroneState;
+import com.musalasoft.drone.domain.model.Drone;
+import com.musalasoft.drone.domain.model.DroneState;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
