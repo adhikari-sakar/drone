@@ -2,9 +2,9 @@ package com.musalasoft.drone.application.service;
 
 import com.musalasoft.drone.application.dto.DroneDto;
 import com.musalasoft.drone.application.dto.MedicationDto;
+import com.musalasoft.drone.application.exception.DroneException;
 import com.musalasoft.drone.application.mapper.DroneMapper;
 import com.musalasoft.drone.application.repository.DroneRepository;
-import com.musalasoft.drone.application.exception.DroneException;
 import com.musalasoft.drone.domain.model.Battery;
 import com.musalasoft.drone.domain.model.Drone;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import java.util.List;
 import java.util.Optional;
 
-import static com.musalasoft.drone.domain.model.DroneState.*;
+import static com.musalasoft.drone.domain.model.DroneState.IDLE;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -40,17 +40,23 @@ class DroneServiceTest {
         when(droneMapper.toModel(any(DroneDto.class))).thenReturn(drone);
         when(droneMapper.toDto(any(Drone.class))).thenReturn(new DroneDto());
         when(repository.save(any(Drone.class))).thenReturn(drone);
-        service = new DroneService(repository, droneMapper, medicationService);
+        service = new DroneService(10, repository, droneMapper, medicationService);
     }
 
     @Test
     void registerNewDrone() {
-
         assertNotNull(service.registerNewDrone(new DroneDto()));
 
         verify(droneMapper).toModel(any(DroneDto.class));
         verify(droneMapper).toDto(any(Drone.class));
         verify(repository).save(any(Drone.class));
+    }
+
+    @Test
+    void registerNewDrone_failsIfMaxNumberExceeded() {
+        when(repository.findAll()).thenReturn(List.of(drone, drone));
+        service = new DroneService(1, repository, droneMapper, medicationService);
+        assertThrows(RuntimeException.class, () -> service.registerNewDrone(new DroneDto()));
     }
 
     @Test

@@ -8,30 +8,37 @@ import com.musalasoft.drone.application.mapper.DroneMapper;
 import com.musalasoft.drone.application.repository.DroneRepository;
 import com.musalasoft.drone.domain.model.Battery;
 import com.musalasoft.drone.domain.model.Drone;
-import com.musalasoft.drone.domain.model.DroneState;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.musalasoft.drone.domain.model.DroneState.IDLE;
 import static java.util.stream.Collectors.toList;
 
 @Service
 public class DroneService {
-
+    private final Integer maxDroneNumber;
     private final DroneRepository repository;
     private final DroneMapper mapper;
     private final MedicationService medicationService;
 
-    public DroneService(DroneRepository repository, DroneMapper mapper, MedicationService medicationService) {
+    public DroneService(@Value("${drone.max.number}") Integer maxDroneNumber, DroneRepository repository, DroneMapper mapper, MedicationService medicationService) {
+        this.maxDroneNumber = maxDroneNumber;
         this.repository = repository;
         this.mapper = mapper;
         this.medicationService = medicationService;
     }
 
     public DroneDto registerNewDrone(DroneDto droneDto) {
+        if (repository.findAll().size() > maxDroneNumber)
+            throw new RuntimeException("Failed to register a new drone. Drone limit is " + maxDroneNumber);
         return mapper.toDto(repository.save(mapper.toModel(droneDto)));
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public DroneDto loadMedications(String serialNumber, List<MedicationRequest> medicationRequests) {
         return repository.findBySerialNumber(serialNumber)
                 .map(drone -> drone.loadItems(medicationService.medicationsModel(medicationRequests)))
@@ -48,7 +55,7 @@ public class DroneService {
     }
 
     public List<DroneDto> availableDrones() {
-        return repository.findAllByDroneState(DroneState.IDLE)
+        return repository.findAllByDroneState(IDLE)
                 .stream()
                 .map(mapper::toDto)
                 .collect(toList());

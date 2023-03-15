@@ -7,5 +7,13 @@ public enum DroneState {
     LOADED,
     DELIVERING,
     DELIVERED,
-    RETURNING
+    RETURNING;
+
+    public boolean isLoaded() {
+        return this == LOADED || this == DELIVERING;
+    }
+
+    public boolean isReady() {
+        return this == IDLE;
+    }
 }

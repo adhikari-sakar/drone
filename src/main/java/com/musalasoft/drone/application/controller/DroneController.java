@@ -6,6 +6,7 @@ import com.musalasoft.drone.application.dto.MedicationDto;
 import com.musalasoft.drone.application.dto.MedicationRequest;
 import com.musalasoft.drone.application.mapper.DroneMapper;
 import com.musalasoft.drone.application.service.DroneService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -19,15 +20,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @Validated
+@AllArgsConstructor
 @RequestMapping("api/v1/drones/")
 public class DroneController {
     private final DroneService droneService;
     private final DroneMapper mapper;
-
-    public DroneController(DroneService droneService, DroneMapper mapper) {
-        this.droneService = droneService;
-        this.mapper = mapper;
-    }
 
     @PostMapping(path = "register", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(CREATED)
@@ -37,13 +34,13 @@ public class DroneController {
 
     @PostMapping(path = "/medications/load/{serialNumber}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(CREATED)
-    public ResponseEntity<DroneDto> addMedication(@PathVariable String serialNumber, @Valid @RequestBody List<MedicationRequest> medicationRequests) {
+    public ResponseEntity<DroneDto> addMedications(@PathVariable String serialNumber, @Valid @RequestBody List<MedicationRequest> medicationRequests) {
         return ResponseEntity.ok(droneService.loadMedications(serialNumber, medicationRequests));
     }
 
     @GetMapping(path = "/medications/fetch/{serialNumber}", produces = APPLICATION_JSON_VALUE)
     @ResponseStatus(OK)
-    public ResponseEntity<List<MedicationDto>> medication(@PathVariable String serialNumber) {
+    public ResponseEntity<List<MedicationDto>> fetchMedications(@PathVariable String serialNumber) {
         return ResponseEntity.ok(droneService.findMedications(serialNumber));
     }
 

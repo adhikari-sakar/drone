@@ -4,12 +4,13 @@ import com.musalasoft.drone.application.repository.DroneRepository;
 import com.musalasoft.drone.domain.contracts.Task;
 import com.musalasoft.drone.domain.model.Drone;
 import com.musalasoft.drone.domain.model.DroneState;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -19,18 +20,15 @@ import static com.musalasoft.drone.domain.model.DroneState.*;
 
 @Component
 @EnableScheduling
-@Transactional
 @Slf4j
+@AllArgsConstructor
 public class DroneScheduleTask implements Task {
 
     private final DroneRepository repository;
 
-    public DroneScheduleTask(DroneRepository repository) {
-        this.repository = repository;
-    }
-
     @Override
     @Scheduled(fixedDelayString = "${drone.schedular.delayMs}")
+    @Transactional
     public void execute() {
         charge();
         delivering();

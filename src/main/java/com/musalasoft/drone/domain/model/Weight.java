@@ -8,6 +8,7 @@ import lombok.Value;
 public class Weight {
 
     Double unit;
+
     public boolean isWeightLess() {
         return this.unit == null || this.unit < 0;
     }

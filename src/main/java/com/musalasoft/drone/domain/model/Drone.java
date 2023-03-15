@@ -2,6 +2,7 @@ package com.musalasoft.drone.domain.model;
 
 import com.musalasoft.drone.application.exception.BatteryLowException;
 import com.musalasoft.drone.application.exception.DroneLoadExceedException;
+import com.musalasoft.drone.application.exception.DroneNotReadyException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +11,8 @@ import static com.musalasoft.drone.domain.model.DroneState.*;
 import static java.util.Optional.ofNullable;
 
 public class Drone extends BaseModel<Long> {
+
+    private static final Double MAX_WEIGHT = 500.00;
 
     public Drone(SerialNumber serialNumber, DroneModel model, Weight weight, Battery battery, DroneState state, List<Medication> medications) {
         this.serialNumber = serialNumber;
@@ -61,26 +64,30 @@ public class Drone extends BaseModel<Long> {
     }
 
     public Drone loadItems(List<Medication> newMedications) {
-        this.state = LOADING;
-        if (isLowBattery())
-            throw new BatteryLowException("Drone battery is low.");
+        if (!isReady())
+            throw new DroneNotReadyException("Drone is not ready.");
         if (isOverloaded(newMedications))
             throw new DroneLoadExceedException("Weight limit exceeded.");
+        if (isLowBattery())
+            throw new BatteryLowException("Drone battery is low.");
+        this.state = LOADING;
         newMedications.forEach(medication -> getMedications().add(medication));
         this.state = LOADED;
         return this;
     }
 
+    private boolean isReady() {
+        return state.isReady();
+    }
+
     private boolean isOverloaded(List<Medication> newLoads) {
-        return currentWeight() + payloadWeight(newLoads) > maxWeight();
+        return currentWeight() + payloadWeight(newLoads) > MAX_WEIGHT;
     }
 
     private Double currentWeight() {
-        return model.getWeight() + payloadWeight(getMedications());
-    }
-
-    private Double maxWeight() {
-        return 500.00;
+        if (state.isLoaded())
+            return model.getWeight() + payloadWeight(getMedications());
+        return model.getWeight();
     }
 
     private Double payloadWeight(List<Medication> medications) {
@@ -118,7 +125,6 @@ public class Drone extends BaseModel<Long> {
 
     private void unload() {
         this.weight = model.weight();
-        getMedications().clear();
     }
 
     public Drone returnDrone() {

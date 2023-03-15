@@ -42,7 +42,7 @@ public class DroneEntity extends BaseEntity {
     @Column(nullable = false)
     private DroneState state;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "drone", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "drone", orphanRemoval = true)
     private List<MedicationEntity> medications;
 
     public void setMedications(List<MedicationEntity> medications) {
