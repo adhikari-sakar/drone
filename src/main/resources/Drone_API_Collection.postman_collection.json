@@ -1,0 +1,179 @@
+{
+	"info": {
+		"_postman_id": "f9de2ef3-bbbf-4951-8559-9ae3f058c31c",
+		"name": "Drone API Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7587571"
+	},
+	"item": [
+		{
+			"name": "Register New Drone",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"serialNumber\" : \"TEST_1\",\n    \"model\" : \"LIGHT_WEIGHT\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/drones/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"drones",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Load Medications",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"name\": \"M1\",\n        \"weight\": 100.00,\n        \"code\": \"M_TEST001\",\n        \"imageUrl\": \"/src/1.png\"\n    },\n        {\n        \"name\": \"M2\",\n        \"weight\": 100.00,\n        \"code\": \"M_TEST002\",\n        \"imageUrl\": \"/src/2.png\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/drones/medications/load/TEST_123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"drones",
+						"medications",
+						"load",
+						"TEST_123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Available Loading Drones",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/drones/availableDrones",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"drones",
+						"availableDrones"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch Medications",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/drones/medications/fetch/TEST_123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"drones",
+						"medications",
+						"fetch",
+						"TEST_123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Battery Level",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/drones/battery/TEST_123",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"drones",
+						"battery",
+						"TEST_123"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

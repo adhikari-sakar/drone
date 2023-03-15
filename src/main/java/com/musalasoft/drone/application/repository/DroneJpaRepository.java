@@ -13,7 +13,7 @@ import java.util.Optional;
 
 public interface DroneJpaRepository extends JpaRepository<DroneEntity, Long> {
 
-    @Lock(LockModeType.PESSIMISTIC_READ)
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "5000")})
     @Transactional
     List<DroneEntity> findAllByState(DroneState state);

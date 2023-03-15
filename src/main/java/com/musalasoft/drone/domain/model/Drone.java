@@ -140,8 +140,8 @@ public class Drone extends BaseModel<Long> {
     @Override
     public String toString() {
         return "{" +
-                " serial_number=" + serialNumber.getId() +
-                "  weight=" + weight.getUnit() +
+                "serial_number=" + serialNumber.getId() +
+                ", weight=" + weight.getUnit() +
                 ", battery=" + battery.getCapacity() +
                 ", state=" + state.name() +
                 ", medications_size=" + currentMedicationSize() +

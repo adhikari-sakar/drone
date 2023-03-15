@@ -1,0 +1,42 @@
+<configuration scan="true">
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date{ISO8601} %highlight(%-5level) %magenta(%thread) %cyan(%logger{1}): %msg%n%throwable</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_OUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/drone.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/logs/drone-%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>1MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="STDOUT-ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="STDOUT"/>
+    </appender>
+
+    <appender name="FILE-ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="FILE_OUT"/>
+    </appender>
+
+    <root level="${logging.level.root}">
+        <appender-ref ref="STDOUT-ASYNC"/>
+        <appender-ref ref="FILE-ASYNC"/>
+    </root>
+
+    <logger name="FILE_OUT" level="INFO" additivity="false">
+        <appender-ref ref="FILE-ASYNC"/>
+    </logger>
+
+
+</configuration>

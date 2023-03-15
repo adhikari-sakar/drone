@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.musalasoft.drone.domain.model.DroneState.IDLE;
+import static com.musalasoft.drone.domain.model.DroneState.LOADING;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -54,7 +54,7 @@ public class DroneService {
     }
 
     public List<DroneDto> availableDrones() {
-        return repository.findAllByDroneState(IDLE)
+        return repository.findAllByDroneState(LOADING)
                 .stream()
                 .map(mapper::toDto)
                 .collect(toList());
