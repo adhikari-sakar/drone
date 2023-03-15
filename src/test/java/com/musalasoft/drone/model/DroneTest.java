@@ -1,6 +1,5 @@
 package com.musalasoft.drone.model;
 
-import com.musalasoft.drone.application.exception.BatteryLowException;
 import com.musalasoft.drone.application.exception.DroneLoadExceedException;
 import com.musalasoft.drone.application.exception.DroneNotReadyException;
 import com.musalasoft.drone.domain.model.*;
@@ -17,27 +16,27 @@ class DroneTest {
 
     @Test
     void loadFails_ifDroneNotReady() {
-        Drone drone = newDrone(LIGHT_WEIGHT, battery(100.00), DroneState.DELIVERING, null);
+        Drone drone = newDrone(LIGHT_WEIGHT, battery(100.00), DroneState.IDLE, null);
         assertThrows(DroneNotReadyException.class, () -> drone.loadItems(List.of(medication(100.00))));
     }
 
     @Test
     void loadSuccess_100GMedicationFor_lightWeight_batteryFullDrone() {
-        Drone drone = newDrone(LIGHT_WEIGHT, battery(100.00), DroneState.IDLE, null);
+        Drone drone = newDrone(LIGHT_WEIGHT, battery(100.00), DroneState.LOADING, null);
         Drone loaded = drone.loadItems(List.of(medication(100.00)));
         assertEquals(LIGHT_WEIGHT.getWeight() + 100.00, loaded.getWeight().getUnit());
     }
 
     @Test
     void loadFailed_100GMedicationFor_lightWeight_batteryLowDrone() {
-        Drone drone = newDrone(LIGHT_WEIGHT, battery(20.00), DroneState.IDLE, null);
-        assertThrows(BatteryLowException.class, () -> drone.loadItems(List.of(medication(100.00))));
+        Drone drone = newDrone(LIGHT_WEIGHT, battery(20.00), DroneState.LOADING, null);
+        assertThrows(DroneNotReadyException.class, () -> drone.loadItems(List.of(medication(100.00))));
     }
 
 
     @Test
     void loadSuccess_100GMedicationFor_middleWeight_batteryFullDrone() {
-        Drone drone = newDrone(MIDDLE_WEIGHT, battery(100.00), DroneState.IDLE, null);
+        Drone drone = newDrone(MIDDLE_WEIGHT, battery(100.00), DroneState.LOADING, null);
         Drone loaded = drone.loadItems(List.of(medication(100.00)));
         assertEquals(MIDDLE_WEIGHT.getWeight() + 100.00, loaded.getWeight().getUnit());
     }
@@ -45,39 +44,39 @@ class DroneTest {
     @Test
     void loadFailed_100GMedicationFor_middleWeight_batteryLowDrone() {
         Drone drone = newDrone(MIDDLE_WEIGHT, battery(20.00), DroneState.IDLE, null);
-        assertThrows(BatteryLowException.class, () -> drone.loadItems(List.of(medication(100.00))));
+        assertThrows(DroneNotReadyException.class, () -> drone.loadItems(List.of(medication(100.00))));
     }
 
     @Test
     void loadSuccess_100GMedicationFor_cruiseWeight_batteryFullDrone() {
-        Drone drone = newDrone(CRUISER_WEIGHT, battery(100.00), DroneState.IDLE, null);
+        Drone drone = newDrone(CRUISER_WEIGHT, battery(100.00), DroneState.LOADING, null);
         Drone loaded = drone.loadItems(List.of(medication(100.00)));
         assertEquals(CRUISER_WEIGHT.getWeight() + 100.00, loaded.getWeight().getUnit());
     }
 
     @Test
     void loadFailed_100GMedicationFor_cruiseWeight_batteryLowDrone() {
-        Drone drone = newDrone(CRUISER_WEIGHT, battery(20.00), DroneState.IDLE, null);
-        assertThrows(BatteryLowException.class, () -> drone.loadItems(List.of(medication(100.00))));
+        Drone drone = newDrone(CRUISER_WEIGHT, battery(20.00), DroneState.LOADING, null);
+        assertThrows(DroneNotReadyException.class, () -> drone.loadItems(List.of(medication(100.00))));
     }
 
     @Test
     void loadSuccess_100GMedicationFor_heavyWeight_batteryFullDrone() {
-        Drone drone = newDrone(HEAVY_WEIGHT, battery(100.00), DroneState.IDLE, null);
+        Drone drone = newDrone(HEAVY_WEIGHT, battery(100.00), DroneState.LOADING, null);
         Drone loaded = drone.loadItems(List.of(medication(100.00)));
         assertEquals(HEAVY_WEIGHT.getWeight() + 100.00, loaded.getWeight().getUnit());
     }
 
     @Test
     void loadFailed_200GMedicationFor_heavyWeight_batteryFullDrone() {
-        Drone drone = newDrone(HEAVY_WEIGHT, battery(100.00), DroneState.IDLE, null);
+        Drone drone = newDrone(HEAVY_WEIGHT, battery(100.00), DroneState.LOADING, null);
         assertThrows(DroneLoadExceedException.class, () -> drone.loadItems(List.of(medication(200.00))));
     }
 
     @Test
     void loadFailed_100GMedicationFor_heavyWeight_batteryLowDrone() {
-        Drone drone = newDrone(HEAVY_WEIGHT, battery(20.00), DroneState.IDLE, null);
-        assertThrows(BatteryLowException.class, () -> drone.loadItems(List.of(medication(100.00))));
+        Drone drone = newDrone(HEAVY_WEIGHT, battery(20.00), DroneState.LOADING, null);
+        assertThrows(DroneNotReadyException.class, () -> drone.loadItems(List.of(medication(100.00))));
     }
 
     public static Drone newDrone(DroneModel model, Battery battery, DroneState state, List<Medication> medications) {

@@ -10,7 +10,6 @@ import com.musalasoft.drone.domain.model.Battery;
 import com.musalasoft.drone.domain.model.Drone;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -19,6 +18,7 @@ import static com.musalasoft.drone.domain.model.DroneState.IDLE;
 import static java.util.stream.Collectors.toList;
 
 @Service
+@Transactional
 public class DroneService {
     private final Integer maxDroneNumber;
     private final DroneRepository repository;
@@ -38,7 +38,6 @@ public class DroneService {
         return mapper.toDto(repository.save(mapper.toModel(droneDto)));
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public DroneDto loadMedications(String serialNumber, List<MedicationRequest> medicationRequests) {
         return repository.findBySerialNumber(serialNumber)
                 .map(drone -> drone.loadItems(medicationService.medicationsModel(medicationRequests)))

@@ -15,11 +15,11 @@ public interface DroneJpaRepository extends JpaRepository<DroneEntity, Long> {
 
     @Lock(LockModeType.PESSIMISTIC_READ)
     @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "5000")})
-    @Transactional(readOnly = true)
+    @Transactional
     List<DroneEntity> findAllByState(DroneState state);
 
     @Lock(LockModeType.PESSIMISTIC_READ)
     @QueryHints({@QueryHint(name = "javax.persistence.lock.timeout", value = "5000")})
-    @Transactional(readOnly = true)
+    @Transactional
     Optional<DroneEntity> findBySerialNumber(String serialNumber);
 }

@@ -14,6 +14,6 @@ public enum DroneState {
     }
 
     public boolean isReady() {
-        return this == IDLE;
+        return this == LOADING;
     }
 }

@@ -1,6 +1,5 @@
 package com.musalasoft.drone.domain.model;
 
-import com.musalasoft.drone.application.exception.BatteryLowException;
 import com.musalasoft.drone.application.exception.DroneLoadExceedException;
 import com.musalasoft.drone.application.exception.DroneNotReadyException;
 
@@ -64,13 +63,10 @@ public class Drone extends BaseModel<Long> {
     }
 
     public Drone loadItems(List<Medication> newMedications) {
-        if (!isReady())
-            throw new DroneNotReadyException("Drone is not ready.");
+        if (!isReady() || isLowBattery())
+            throw new DroneNotReadyException("Drone is not ready. State: " + this.state + " Battery: " + this.battery.getCapacity());
         if (isOverloaded(newMedications))
-            throw new DroneLoadExceedException("Weight limit exceeded.");
-        if (isLowBattery())
-            throw new BatteryLowException("Drone battery is low.");
-        this.state = LOADING;
+            throw new DroneLoadExceedException("Weight limit exceeded. Max Weight : " + MAX_WEIGHT + " Current Weight: " + this.currentWeight());
         newMedications.forEach(medication -> getMedications().add(medication));
         this.state = LOADED;
         return this;
@@ -103,6 +99,8 @@ public class Drone extends BaseModel<Long> {
 
     public Drone charge() {
         this.battery = battery.charge();
+        if (!battery.isLow())
+            this.state = LOADING;
         return this;
     }
 
@@ -141,12 +139,25 @@ public class Drone extends BaseModel<Long> {
 
     @Override
     public String toString() {
-        return "Drone{" +
+        return "{" +
+                " serial_number=" + serialNumber.getId() +
                 "  weight=" + weight.getUnit() +
                 ", battery=" + battery.getCapacity() +
                 ", state=" + state.name() +
-                ", medications_size=" + medications.size() +
-                ", medications_weight=" + payloadWeight(getMedications()) +
+                ", medications_size=" + currentMedicationSize() +
+                ", medications_weight=" + currentMedicationLoad() +
                 '}';
+    }
+
+    private Integer currentMedicationSize() {
+        if (state.isLoaded())
+            return medications.size();
+        return 0;
+    }
+
+    private Double currentMedicationLoad() {
+        if (state.isLoaded())
+            return payloadWeight(getMedications());
+        return 0.0;
     }
 }
