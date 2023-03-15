@@ -11,7 +11,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -29,20 +28,21 @@ public class DroneEntity extends BaseEntity {
     private String serialNumber;
 
     @Enumerated(STRING)
+    @Column(nullable = false)
     private DroneModel model;
-    @NotNull
     @Max(500)
     @Min(1)
     private Double weight;
 
-    @NotNull
     @Max(100)
     @Min(0)
+    @Column(nullable = false)
     private Double battery;
     @Enumerated(STRING)
+    @Column(nullable = false)
     private DroneState state;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "drone", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "drone", orphanRemoval = true)
     private List<MedicationEntity> medications;
 
     public void setMedications(List<MedicationEntity> medications) {

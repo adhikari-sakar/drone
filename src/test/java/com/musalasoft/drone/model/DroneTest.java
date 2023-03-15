@@ -1,8 +1,8 @@
 package com.musalasoft.drone.model;
 
 import com.musalasoft.drone.domain.model.*;
-import com.musalasoft.drone.exception.BatteryLowException;
-import com.musalasoft.drone.exception.DroneLoadExceedException;
+import com.musalasoft.drone.application.exception.BatteryLowException;
+import com.musalasoft.drone.application.exception.DroneLoadExceedException;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -74,6 +74,8 @@ class DroneTest {
         assertThrows(BatteryLowException.class, () -> drone.loadItems(List.of(medication(100.00))));
     }
 
+
+    @Test
 
     public static Drone newDrone(DroneModel model, Battery battery, DroneState state, List<Medication> medications) {
         return new Drone(serialNumber(), model, model.weight(), battery, state, medications);

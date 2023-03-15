@@ -2,9 +2,10 @@ package com.musalasoft.drone.application.service;
 
 import com.musalasoft.drone.application.dto.DroneDto;
 import com.musalasoft.drone.application.dto.MedicationDto;
+import com.musalasoft.drone.application.dto.MedicationRequest;
+import com.musalasoft.drone.application.exception.DroneNotFoundException;
 import com.musalasoft.drone.application.mapper.DroneMapper;
 import com.musalasoft.drone.application.repository.DroneRepository;
-import com.musalasoft.drone.exception.DroneNotFoundException;
 import com.musalasoft.drone.domain.model.Battery;
 import com.musalasoft.drone.domain.model.Drone;
 import com.musalasoft.drone.domain.model.DroneState;
@@ -31,7 +32,7 @@ public class DroneService {
         return mapper.toDto(repository.save(mapper.toModel(droneDto)));
     }
 
-    public DroneDto loadMedications(String serialNumber, List<MedicationDto> medicationRequests) {
+    public DroneDto loadMedications(String serialNumber, List<MedicationRequest> medicationRequests) {
         return repository.findBySerialNumber(serialNumber)
                 .map(drone -> drone.loadItems(medicationService.medicationsModel(medicationRequests)))
                 .map(repository::save)
@@ -47,7 +48,7 @@ public class DroneService {
     }
 
     public List<DroneDto> availableDrones() {
-        return repository.findAllByDroneState(DroneState.LOADING)
+        return repository.findAllByDroneState(DroneState.IDLE)
                 .stream()
                 .map(mapper::toDto)
                 .collect(toList());
@@ -61,6 +62,6 @@ public class DroneService {
     }
 
     private static DroneNotFoundException droneNotFound(String serialNumber) {
-        return new DroneNotFoundException("Drone not found with serial " + serialNumber);
+        return new DroneNotFoundException("Drone not found for serial no: " + serialNumber);
     }
 }

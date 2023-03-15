@@ -4,7 +4,7 @@ import com.musalasoft.drone.application.dto.DroneDto;
 import com.musalasoft.drone.application.dto.MedicationDto;
 import com.musalasoft.drone.application.mapper.DroneMapper;
 import com.musalasoft.drone.application.repository.DroneRepository;
-import com.musalasoft.drone.exception.DroneException;
+import com.musalasoft.drone.application.exception.DroneException;
 import com.musalasoft.drone.domain.model.Battery;
 import com.musalasoft.drone.domain.model.Drone;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import java.util.List;
 import java.util.Optional;
 
-import static com.musalasoft.drone.domain.model.DroneState.LOADING;
+import static com.musalasoft.drone.domain.model.DroneState.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -76,19 +76,19 @@ class DroneServiceTest {
 
     @Test
     void availableDrones() {
-        when(repository.findAllByDroneState(LOADING)).thenReturn(List.of(drone));
+        when(repository.findAllByDroneState(IDLE)).thenReturn(List.of(drone));
 
         assertFalse(service.availableDrones().isEmpty());
 
-        verify(repository).findAllByDroneState(LOADING);
+        verify(repository).findAllByDroneState(IDLE);
         verify(droneMapper).toDto(any(Drone.class));
     }
 
     @Test
     void availableDrones_droneNotFound() {
-        when(repository.findAllByDroneState(LOADING)).thenReturn(List.of());
+        when(repository.findAllByDroneState(IDLE)).thenReturn(List.of());
         assertTrue(service.availableDrones().isEmpty());
-        verify(repository).findAllByDroneState(LOADING);
+        verify(repository).findAllByDroneState(IDLE);
     }
 
     @Test

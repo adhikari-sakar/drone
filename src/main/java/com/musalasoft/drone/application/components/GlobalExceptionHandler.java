@@ -1,7 +1,8 @@
 package com.musalasoft.drone.application.components;
 
 import com.musalasoft.drone.application.dto.ErrorResponse;
-import com.musalasoft.drone.exception.DroneException;
+import com.musalasoft.drone.application.exception.DroneException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -13,28 +14,29 @@ import javax.validation.ConstraintViolationException;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handle(DroneException e) {
-        e.printStackTrace();
+        log.error(e.getMessage());
         return ResponseEntity.badRequest().body(new ErrorResponse(BAD_REQUEST, e.getMessage()));
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handle(HttpMessageNotReadableException e) {
-        e.printStackTrace();
+        log.error(e.getMessage());
         return ResponseEntity.badRequest().body(new ErrorResponse(BAD_REQUEST, e.getMessage()));
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handle(ConstraintViolationException e) {
-        e.printStackTrace();
+        log.error(e.getMessage());
         return ResponseEntity.badRequest().body(new ErrorResponse(BAD_REQUEST, e.getMessage()));
     }
 
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handle(Exception e) {
-        e.printStackTrace();
+        log.error(e.getMessage());
         return ResponseEntity.badRequest().body(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()));
     }
 }

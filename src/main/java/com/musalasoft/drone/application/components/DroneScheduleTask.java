@@ -1,4 +1,4 @@
-package com.musalasoft.drone.application;
+package com.musalasoft.drone.application.components;
 
 import com.musalasoft.drone.application.repository.DroneRepository;
 import com.musalasoft.drone.domain.contracts.Task;
@@ -30,16 +30,16 @@ public class DroneScheduleTask implements Task {
     }
 
     @Override
-    @Scheduled(fixedDelayString = "10000")
+    @Scheduled(fixedDelayString = "${drone.schedular.delayMs}")
     public void execute() {
-        startCharging();
+        charge();
         delivering();
         delivered();
         returning();
         park();
     }
 
-    public void startCharging() {
+    public void charge() {
         repository.saveAll(transit(IDLE, Drone::charge));
     }
 
@@ -64,7 +64,6 @@ public class DroneScheduleTask implements Task {
                 .stream()
                 .peek(this::log)
                 .map(droneFunction)
-                .peek(this::log)
                 .collect(Collectors.toList());
     }
 

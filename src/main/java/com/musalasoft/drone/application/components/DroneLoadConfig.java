@@ -1,6 +1,6 @@
-package com.musalasoft.drone.application;
+package com.musalasoft.drone.application.components;
 
-import com.musalasoft.drone.application.dto.NewDroneRequest;
+import com.musalasoft.drone.application.dto.DroneRequest;
 import com.musalasoft.drone.application.mapper.DroneMapper;
 import com.musalasoft.drone.application.repository.DroneRepository;
 import lombok.Getter;
@@ -17,7 +17,7 @@ import java.util.List;
 public class DroneLoadConfig {
     @Getter
     @Setter
-    private List<NewDroneRequest> droneRequests = new ArrayList<>();
+    private List<DroneRequest> droneRequests = new ArrayList<>();
 
     @Bean
     public SampleDroneLoader droneLoader(DroneRepository repository, DroneMapper mapper) {

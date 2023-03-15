@@ -1,7 +1,7 @@
 package com.musalasoft.drone.application.mapper;
 
 import com.musalasoft.drone.application.dto.DroneDto;
-import com.musalasoft.drone.application.dto.NewDroneRequest;
+import com.musalasoft.drone.application.dto.DroneRequest;
 import com.musalasoft.drone.application.repository.DroneEntity;
 import com.musalasoft.drone.domain.model.Drone;
 import org.mapstruct.Mapper;
@@ -17,7 +17,7 @@ public interface DroneMapper {
     @Mapping(target = "battery.capacity", source = "battery")
     Drone toModel(DroneEntity entity);
 
-    DroneDto toDroneDto(NewDroneRequest request);
+    DroneDto toDroneDto(DroneRequest request);
 
     @Mapping(target = "serialNumber.id", source = "serialNumber")
     @Mapping(target = "weight.unit", source = "weight")

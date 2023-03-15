@@ -1,7 +1,7 @@
 package com.musalasoft.drone.domain.model;
 
-import com.musalasoft.drone.exception.BatteryLowException;
-import com.musalasoft.drone.exception.DroneLoadExceedException;
+import com.musalasoft.drone.application.exception.BatteryLowException;
+import com.musalasoft.drone.application.exception.DroneLoadExceedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ public class Drone extends BaseModel<Long> {
 
     private final SerialNumber serialNumber;
     private final DroneModel model;
-    private final Weight weight;
+    private Weight weight;
     private Battery battery;
     private DroneState state;
     private final List<Medication> medications;
@@ -48,7 +48,7 @@ public class Drone extends BaseModel<Long> {
     public Battery getBattery() {
         return ofNullable(battery)
                 .filter(Battery::isDrained)
-                .map(Battery::full)
+                .map(b -> Battery.of(20.00))
                 .orElse(battery);
     }
 
@@ -76,7 +76,7 @@ public class Drone extends BaseModel<Long> {
     }
 
     private Double currentWeight() {
-        return weight.getUnit() + payloadWeight(getMedications());
+        return model.getWeight() + payloadWeight(getMedications());
     }
 
     private Double maxWeight() {
@@ -117,7 +117,8 @@ public class Drone extends BaseModel<Long> {
     }
 
     private void unload() {
-//        getMedications().clear();
+        this.weight = model.weight();
+        getMedications().clear();
     }
 
     public Drone returnDrone() {
