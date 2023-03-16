@@ -38,27 +38,27 @@ public class DroneScheduleTask implements Task {
         park();
     }
 
-    public void charge() {
+    private void charge() {
         repository.saveAll(transit(IDLE, Drone::charge, "Drone is Idle. Now Charging..."));
     }
 
-    public void readyDrones() {
+    private void readyDrones() {
         repository.saveAll(transit(LOADING, Drone::charge, "Drone is ready to load."));
     }
 
-    public void delivering() {
+    private void delivering() {
         repository.saveAll(transit(LOADED, Drone::deliver, "Drone is loaded, Initiating delivery..."));
     }
 
-    public void delivered() {
+    private void delivered() {
         repository.saveAll(transit(DELIVERING, Drone::delivered, "Payload is being delivered."));
     }
 
-    public void returning() {
+    private void returning() {
         repository.saveAll(transit(DELIVERED, Drone::returnDrone, "Payload is delivered."));
     }
 
-    public void park() {
+    private void park() {
         repository.saveAll(transit(RETURNING, Drone::land, "Drone is returned."));
     }
 
