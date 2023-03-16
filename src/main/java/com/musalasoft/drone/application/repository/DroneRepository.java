@@ -13,6 +13,7 @@ import java.util.Optional;
 @Repository
 @AllArgsConstructor
 public class DroneRepository implements BaseRepository<Drone> {
+
     private final DroneMapper mapper;
     private final DroneJpaRepository jpaRepository;
 

@@ -20,16 +20,19 @@ import static java.util.stream.Collectors.toList;
 @Service
 @Transactional
 public class DroneService {
+
     private final Integer maxDroneNumber;
     private final DroneRepository repository;
     private final DroneMapper mapper;
     private final MedicationService medicationService;
+    private final PayloadHistoryService historyService;
 
-    public DroneService(@Value("${drone.max.number}") Integer maxDroneNumber, DroneRepository repository, DroneMapper mapper, MedicationService medicationService) {
+    public DroneService(@Value("${drone.max.number}") Integer maxDroneNumber, DroneRepository repository, DroneMapper mapper, MedicationService medicationService, PayloadHistoryService historyService) {
         this.maxDroneNumber = maxDroneNumber;
         this.repository = repository;
         this.mapper = mapper;
         this.medicationService = medicationService;
+        this.historyService = historyService;
     }
 
     public DroneDto registerNewDrone(DroneDto droneDto) {
@@ -48,8 +51,8 @@ public class DroneService {
 
     public List<MedicationDto> findMedications(String serialNumber) {
         return repository.findBySerialNumber(serialNumber)
-                .map(Drone::getMedications)
-                .map(medicationService::medicationsDto)
+                .map(Drone::getHistories)
+                .map(historyService::medicationsDto)
                 .orElseThrow(() -> droneNotFound(serialNumber));
     }
 

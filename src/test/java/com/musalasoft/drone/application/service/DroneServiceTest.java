@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import java.util.List;
 import java.util.Optional;
 
-import static com.musalasoft.drone.domain.model.DroneState.IDLE;
 import static com.musalasoft.drone.domain.model.DroneState.LOADING;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -31,6 +30,8 @@ class DroneServiceTest {
     @Mock
     private MedicationService medicationService;
     @Mock
+    private PayloadHistoryService historyService;
+    @Mock
     private Drone drone;
 
     private DroneService service;
@@ -41,7 +42,7 @@ class DroneServiceTest {
         when(droneMapper.toModel(any(DroneDto.class))).thenReturn(drone);
         when(droneMapper.toDto(any(Drone.class))).thenReturn(new DroneDto());
         when(repository.save(any(Drone.class))).thenReturn(drone);
-        service = new DroneService(10, repository, droneMapper, medicationService);
+        service = new DroneService(10, repository, droneMapper, medicationService, historyService);
     }
 
     @Test
@@ -56,7 +57,7 @@ class DroneServiceTest {
     @Test
     void registerNewDrone_failsIfMaxNumberExceeded() {
         when(repository.findAll()).thenReturn(List.of(drone, drone));
-        service = new DroneService(1, repository, droneMapper, medicationService);
+        service = new DroneService(1, repository, droneMapper, medicationService, historyService);
         assertThrows(RuntimeException.class, () -> service.registerNewDrone(new DroneDto()));
     }
 
@@ -102,12 +103,12 @@ class DroneServiceTest {
     void findMedications() {
         when(repository.findBySerialNumber("123")).thenReturn(Optional.of(drone));
         when(drone.getMedications()).thenReturn(List.of());
-        when(medicationService.medicationsDto(any())).thenReturn(List.of(new MedicationDto()));
+        when(historyService.medicationsDto(any())).thenReturn(List.of(new MedicationDto()));
 
         assertFalse(service.findMedications("123").isEmpty());
 
         verify(repository).findBySerialNumber("123");
-        verify(medicationService).medicationsDto(any());
+        verify(historyService).medicationsDto(any());
     }
 
     @Test

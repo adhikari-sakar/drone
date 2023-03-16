@@ -2,6 +2,7 @@ package com.musalasoft.drone.application.repository;
 
 import com.musalasoft.drone.domain.model.DroneModel;
 import com.musalasoft.drone.domain.model.DroneState;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,7 +22,9 @@ import static javax.persistence.EnumType.STRING;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class DroneEntity extends BaseEntity {
+
     @NotBlank
     @Length(min = 1, max = 100)
     @Column(nullable = false, unique = true)
@@ -45,8 +48,16 @@ public class DroneEntity extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "drone", orphanRemoval = true)
     private List<MedicationEntity> medications;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "drone")
+    private List<PayloadHistoryEntity> histories;
+
     public void setMedications(List<MedicationEntity> medications) {
         this.medications = Objects.requireNonNullElseGet(medications, ArrayList::new);
         this.medications.forEach(medication -> medication.setDrone(this));
+    }
+
+    public void setHistories(List<PayloadHistoryEntity> histories) {
+        this.histories = Objects.requireNonNullElseGet(histories, ArrayList::new);
+        this.histories.forEach(medication -> medication.setDrone(this));
     }
 }

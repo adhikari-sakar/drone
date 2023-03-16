@@ -22,6 +22,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @ToString
 @RequiredArgsConstructor
 public class BaseEntity implements Serializable {
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;

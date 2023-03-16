@@ -1,5 +1,7 @@
-package com.musalasoft.drone.domain.validators;
+package com.musalasoft.drone.domain.contracts;
 
+
+import com.musalasoft.drone.domain.validators.RegexValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

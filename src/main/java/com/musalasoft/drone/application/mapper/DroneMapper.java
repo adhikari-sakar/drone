@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = MedicationMapper.class)
+@Mapper(componentModel = "spring", uses = {MedicationMapper.class, HistoryMapper.class})
 public interface DroneMapper {
 
     @Mapping(target = "serialNumber.id", source = "serialNumber")

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,13 +12,16 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
-@Entity(name = "MEDICATION")
+@Entity(name = "PAYLOAD_HISTORY")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MedicationEntity extends BaseEntity {
-
+public class PayloadHistoryEntity extends BaseEntity {
+    @NotBlank
+    @Length(min = 1, max = 100)
+    @Column(nullable = false)
+    private String serialNumber;
     @NotBlank
     @Column(nullable = false)
     private String name;
@@ -30,7 +34,6 @@ public class MedicationEntity extends BaseEntity {
     @NotBlank
     @Column(nullable = false)
     private String imageUrl;
-
     @ManyToOne
     private DroneEntity drone;
 }

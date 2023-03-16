@@ -71,7 +71,7 @@ public class DroneScheduleTask implements Task {
     }
 
     private void log(Drone drone, String status) {
-        log.info("{} Data: {} ", status, drone);
+        log.info("\n {} \n Data: {} ", status, drone);
     }
 
 }

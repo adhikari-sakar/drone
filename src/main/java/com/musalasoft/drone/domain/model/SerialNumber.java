@@ -8,6 +8,7 @@ import java.util.UUID;
 @Value
 @Builder
 public class SerialNumber {
+
     String id;
 
     public boolean isNotGenerated() {

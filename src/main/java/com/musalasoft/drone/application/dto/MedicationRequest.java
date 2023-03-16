@@ -1,6 +1,6 @@
 package com.musalasoft.drone.application.dto;
 
-import com.musalasoft.drone.domain.validators.Regex;
+import com.musalasoft.drone.domain.contracts.Regex;
 import lombok.Data;
 
 import javax.validation.constraints.Min;

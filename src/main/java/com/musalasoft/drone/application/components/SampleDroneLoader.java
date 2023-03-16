@@ -10,6 +10,7 @@ import java.util.List;
 
 @AllArgsConstructor
 public class SampleDroneLoader {
+
     private final DroneRepository repository;
     private final List<DroneRequest> droneRequests;
     private final DroneMapper mapper;
