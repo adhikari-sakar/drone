@@ -34,8 +34,8 @@ public class Drone extends BaseModel<Long> {
 
     public SerialNumber getSerialNumber() {
         return ofNullable(this.serialNumber)
-                .filter(SerialNumber::isNotGenerated)
-                .map(SerialNumber::newSerialNumber)
+                .filter(SerialNumber::isNotProvided)
+                .map(SerialNumber::generate)
                 .orElse(this.serialNumber);
     }
 

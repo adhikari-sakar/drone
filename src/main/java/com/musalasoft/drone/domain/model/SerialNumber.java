@@ -11,11 +11,11 @@ public class SerialNumber {
 
     String id;
 
-    public boolean isNotGenerated() {
+    public boolean isNotProvided() {
         return id == null || id.isEmpty();
     }
 
-    public SerialNumber newSerialNumber() {
+    public SerialNumber generate() {
         return SerialNumber.builder().id(UUID.randomUUID().toString()).build();
     }
 }

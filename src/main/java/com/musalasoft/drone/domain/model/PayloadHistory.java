@@ -15,7 +15,6 @@ public class PayloadHistory extends Medication {
     }
 
     public PayloadHistory(SerialNumber serialNumber, Medication medication) {
-        super(medication.getName(), medication.getWeight(), medication.getCode(), medication.getImage());
-        this.serialNumber = serialNumber;
+        this(serialNumber, medication.getName(), medication.getWeight(), medication.getCode(), medication.getImage());
     }
 }
