@@ -16,7 +16,7 @@ This application is implemented using spring boot framework and h2 as InMemory D
 | property                       | sample value | description                                     |
 |--------------------------------|:------------:|-------------------------------------------------|
 | `drone.max.number `            |      10      | Maximum Number of Drones Allowed  on The System |
-| `drone.schedular.delayMs`      |     5000     | Drone Crone Job Delay in MS                     |
+| `drone.schedular.delayMs`      |     10000     | Drone Crone Job Delay in MS                     |
 | `server.port`                  |     8080     | server http port                                |
 
 
