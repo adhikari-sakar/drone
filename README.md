@@ -32,12 +32,13 @@ This application is implemented using spring boot framework and h2 as InMemory D
 - A new drone can be registered by supplying a unique Serial Number(Optional) and Model Name(Mandatory).
 - Once a drone is registered, a default 20 percent battery capacity will be allocated where the initial state will be IDLE.
 - Drone default weight will be based on drone Model. i.e (LIGHT_WEIGHT(100.00),  MIDDLE_WEIGHT(200.00), CRUISER_WEIGHT(300.00), HEAVY_WEIGHT(400.00))
-- Drone is only allowed to load items (medications) up to 500 Grams once the battery is charged at least 25 percent and is in LOADING state.
+- Drone is only allowed to load items (medications) up to 500 Grams once the battery is charged at least 25 percent.
+- Drone state will be transitioned from IDLE to LOADING state once the battery is charged up to 25%.
 - Charge is automatically done upto 100 percent through a Drone Scheduler Task, when the drone is in IDLE/LOADING state.
 - Drone starts draining its battery by 20 percent when it is either in LOADED/DELIVERING/DELIVERED/RETURNING state.
 - Drone will get back to IDLE and then LOADING state and charge continues automatically when it returns after item delivery.
 - Drone weight including items weight and battery capacity will be calculated, streamed and logged at runtime.
-- Drone weight will be reset when the items are delivered/unloaded.
+- Drone weight will reset when the items are delivered/unloaded.
 
 ### Postman
 The Documentation for all sever endpoints can be found in `src/main/resources/Drone_API_Collection.postman_collection.json`
